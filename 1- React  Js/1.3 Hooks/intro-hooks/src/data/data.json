@@ -1,0 +1,28 @@
+{
+  "user": [
+    {
+      "id": "5dac",
+      "nom": "Luz Daniela",
+      "email": "luzda@yopmail.com",
+      "pass": "123456",
+      "tlf": "3007788",
+      "imagen": "https://res.cloudinary.com/danimel/image/upload/v1728423498/Cali-Front-3/bsdnbmcdose60haor4nt.png"
+    },
+    {
+      "id": "c5b0",
+      "nom": "Miguel",
+      "email": "miguel@gmail.com",
+      "pass": "123456",
+      "tlf": "3001236525",
+      "imagen": "https://res.cloudinary.com/danimel/image/upload/v1728423847/Cali-Front-3/pefclpweu5w3lpr1gads.png"
+    },
+    {
+      "id": "765b",
+      "nom": "kevin",
+      "email": "kevin@gmail.com",
+      "pass": "123456",
+      "tlf": "30012365",
+      "imagen": "https://res.cloudinary.com/danimel/image/upload/v1728424582/Cali-Front-3/byhmwoeoypuiyezoasya.jpg"
+    }
+  ]
+}

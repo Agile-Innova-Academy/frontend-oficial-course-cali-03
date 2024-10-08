@@ -12,10 +12,18 @@ const useForm = ({initialState = {}}) => {
      });
    };
    
-   const reset =()=>{
-    setDatosFormulario(initialState);
+   const handleUpload = (url)=>{
+   setDatosFormulario({
+     ...datosFormulario,
+     imagen:url,
+   });
+
+
    }
-  return [datosFormulario, handleChange, reset]
+   const reset =()=>{
+    setDatosFormulario({initialState});
+   }
+  return [datosFormulario, handleChange, reset, handleUpload];
 }
 
 export default useForm

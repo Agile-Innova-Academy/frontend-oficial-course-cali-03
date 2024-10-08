@@ -1,27 +1,63 @@
+import { useState } from "react";
+import { uploadFile } from "../helpers/uploadFile";
 import useForm from "../Hooks/useForm";
+import { Link, useNavigate } from "react-router-dom";
+import { urlUser } from "../helpers/urls";
+import { PostData } from "../helpers/peticiones";
+import Swal from "sweetalert2";
+import { DivContainer, FormStyle } from "../styles/Styled";
 const Register = () => {
-
-  const [datosFormulario, handleChange, reset] = useForm({
+  const [activeImg, setActiveImg] = useState(true);
+  const [Img, setImg] = useState("");
+  const navigate = useNavigate();
+  const [datosFormulario, handleChange, reset, handleUpload] = useForm({
     nom: "",
     email: "",
     pass: "",
     tlf: "",
+    imagen: "",
   });
 
-
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e)
-    console.log(datosFormulario);
-    reset()
+    console.log(e);
+    const obj = {
+      nom: datosFormulario.nom,
+      email: datosFormulario.email,
+      pass: datosFormulario.pass,
+      tlf: datosFormulario.tlf,
+      imagen: datosFormulario.imagen,
+    };
+    const resp = await PostData(urlUser, obj);
+    console.log(resp);
+    if (resp.status === 201) {
+      Swal.fire("Usuario Registrado con Exito!");
+      // enrutamiento hacia inicio de sesión
+      navigate("/");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+      });
+    }
+
+    reset();
   };
 
+  const handleUploadImagen = (e) => {
+    console.log(e);
+    const file = e.target.files[0];
+    uploadFile(file).then((resp) => {
+      handleUpload(resp);
+      setImg(resp);
+      setActiveImg(false);
+    });
+  };
 
- 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <DivContainer>
+      <FormStyle onSubmit={handleSubmit}>
         <input
           type="text"
           id="nom"
@@ -50,9 +86,23 @@ const Register = () => {
           placeholder="Ingrese teléfono"
           onChange={handleChange}
         />
-        <button type="submit">Registrar</button>
-      </form>
-    </div>
+        <input
+          type="file"
+          id="imagen"
+          name="imagen"
+          onChange={handleUploadImagen}
+        />
+        {!activeImg && (
+          <div>
+            <img src={Img} alt="" style={{ width: 50 }} />
+            <button type="submit">Registrar</button>
+          </div>
+        )}
+      </FormStyle>
+      <p>
+        ¿Ya tienes Cuenta?<Link to="/">Inicia sesión aquí</Link>
+      </p>
+    </DivContainer>
   );
 };
 
