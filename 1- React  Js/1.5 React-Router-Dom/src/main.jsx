@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -8,34 +7,32 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#00f',
+      main: '#00f'
     },
     warning: {
       main: '#0f0'
     }
-  },
-});
+  }
+})
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#ff5252',
-    },
-  },
+      main: '#ff5252'
+    }
+  }
 })
 
 const theme = createTheme({
   colorSchemes: {
     dark: darkTheme,
-    light: lightTheme,
-  },
-});
+    light: lightTheme
+  }
+})
 
 createRoot(document.getElementById('root')).render(
-  <ThemeProvider theme={theme}>
-    <StrictMode>
-      <AppRouter />
-    </StrictMode>
+  <ThemeProvider theme={theme} defaultMode='dark'>
+    <AppRouter />
   </ThemeProvider>
 )

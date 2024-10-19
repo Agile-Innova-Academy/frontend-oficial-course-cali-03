@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import logo from '../assets/logo.svg'
+import LogoutIcon from '@mui/icons-material/Logout'
 import Logo from './Logo'
 import {
   FormControlLabel,
@@ -14,7 +14,7 @@ import {
   Switch,
   useColorScheme
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -72,14 +72,20 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   }
 }))
 
-export default function Navbar () {
+export default function Navbar ({ isLoggedIn, setIsLoggedIn }) {
   const { mode, setMode } = useColorScheme()
-  const [checked, setChecked] = React.useState(true)
+  const [checked, setChecked] = useState(true)
+  const navigate = useNavigate()
 
   const handleChange = event => {
-    console.log(event.target.checked)
     setChecked(event.target.checked)
     setMode(event.target.checked ? 'dark' : 'light')
+  }
+
+  const logOut = () => {
+    localStorage.setItem('isLoggedIn', false)
+    setIsLoggedIn(false)
+    navigate('/login')
   }
 
   // console.log(logo);
@@ -102,24 +108,30 @@ export default function Navbar () {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             Rick & Morty Library
           </Typography>
-          <NavLink to='/characters'>
-            <Button color='inherit'>Characters</Button>
-          </NavLink>
-          <NavLink to='/favorites'>
-            <Button color='inherit'>Favorites</Button>
-          </NavLink>
-          <NavLink to='/locations'>
-            <Button color='inherit'>Locations</Button>
-          </NavLink>
-          <NavLink to='/episodes'>
-            <Button color='inherit'>Episodes</Button>
-          </NavLink>
+          {isLoggedIn && (
+            <>
+              <NavLink to='/characters'>
+                <Button color='inherit'>Characters</Button>
+              </NavLink>
+              <NavLink to='/favorites'>
+                <Button color='inherit'>Favorites</Button>
+              </NavLink>
+              <NavLink to='/locations'>
+                <Button color='inherit'>Locations</Button>
+              </NavLink>
+              <NavLink to='/episodes'>
+                <Button color='inherit'>Episodes</Button>
+              </NavLink>
+              <Button color='inherit' onClick={logOut}>
+                <LogoutIcon />
+              </Button>
+            </>
+          )}
           <FormGroup>
             <FormControlLabel
               control={
                 <MaterialUISwitch
                   sx={{ m: 1 }}
-                  defaultChecked
                   checked={checked}
                   onChange={handleChange}
                   inputProps={{ 'aria-label': 'controlled' }}

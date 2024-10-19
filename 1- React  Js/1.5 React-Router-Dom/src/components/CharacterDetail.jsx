@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom'
 import Paper from '@mui/material/Paper'
 import { styled } from '@mui/material/styles'
 import CircleIcon from '@mui/icons-material/Circle'
-import { Box, Typography } from '@mui/material'
-import { APIURL } from '../constants/urls'
+import { Box, Button, Typography } from '@mui/material'
+import { APIFAVORITES, APIURL } from '../constants/urls'
+import { postData } from '../helpers/postData'
 
 const CharacterDetail = () => {
   const { id } = useParams()
@@ -19,8 +20,7 @@ const CharacterDetail = () => {
     }
   })
   const CharacterCard = styled(Paper)(({ theme }) => ({
-    width: 600,
-    height: 220,
+    height: 'calc(100vh - 4rem)',
     ...theme.typography.body2,
     textAlign: 'center',
     display: 'flex',
@@ -39,9 +39,19 @@ const CharacterDetail = () => {
     fetchAllCharacters()
   }, [id])
 
+  const addFavorite = async () => {
+    await postData(APIFAVORITES, character)
+  }
+
   return (
     <CharacterCard className='characterCard'>
-      <img src={character?.image} alt='character' style={{ width: '220px' }} />
+      <Box>
+        <img
+          src={character?.image}
+          alt='character'
+          style={{ width: '220px' }}
+        />
+      </Box>
       <Box textAlign='left' ml={1}>
         <h2>{character?.name}</h2>
         <Box>
@@ -66,6 +76,9 @@ const CharacterDetail = () => {
           First seen in
         </Typography>
         {/* <Typography variant='h6'>{episodeName}</Typography> */}
+      </Box>
+      <Box>
+        <Button onClick={addFavorite}>Añadir a Favoritos</Button>
       </Box>
     </CharacterCard>
   )

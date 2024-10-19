@@ -4,10 +4,6 @@ function useForm(initialValues = {}) {
   const [formValues, setFormValues] = useState(initialValues);
 
   const handleInputChange = ({ target }) => {
-    console.log({
-      ...formValues,
-      [target.name]: target.value,
-    })
     setFormValues(
       {
         ...formValues,

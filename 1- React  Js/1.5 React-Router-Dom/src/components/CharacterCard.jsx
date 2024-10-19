@@ -34,7 +34,7 @@ const CharacterCard = ({ character }) => {
 
   return (
     <Link to={characterRouteId}>
-      <CharacterCard className='characterCard' square={false} elevation='2'>
+      <CharacterCard className='characterCard' square={false} elevation={6}>
         <img src={character.image} alt='character' style={{ width: '220px' }} />
         <Box textAlign='left' ml={1}>
           <h2>{character.name}</h2>

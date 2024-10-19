@@ -1,24 +1,45 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Home from '../components/Home'
-import Characters from '../components/Characters'
-import Episodes from '../components/Episodes'
-import Locations from '../components/Locations'
-import Favorites from '../components/Favorites'
-import CharacterDetail from '../components/CharacterDetail'
 import Navbar from '../components/Navbar'
+import Login from '../components/Login'
+import SignUp from '../components/SignUp'
+import Dashboard from './Dashboard'
+import Private from './Private'
 
 const AppRouter = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') === 'true')
+  }, [])
+
   return (
     <BrowserRouter>
-      <Navbar/>
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/characters' element={<Characters/>}/>
-        <Route path='/episodes' element={<Episodes/>}/>
-        <Route path='/locations' element={<Locations/>}/>
-        <Route path='/favorites' element={<Favorites/>}/>
-        <Route path='/character/:id' element={<CharacterDetail/>}/>
+        <Route path='/' element={<Home />} />
+        <Route
+          path='/login'
+          element={
+            !isLoggedIn ? (
+              <Login setIsLoggedIn={setIsLoggedIn} />
+            ) : (
+              <Navigate to='/' />
+            )
+          }
+        />
+        <Route path='/signup' element={<SignUp />} />
+
+        {/* Rutas Privadas */}
+        <Route
+          path='/*'
+          element={
+            <Private isAuthenticated={isLoggedIn}>
+              <Dashboard />
+            </Private>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   )

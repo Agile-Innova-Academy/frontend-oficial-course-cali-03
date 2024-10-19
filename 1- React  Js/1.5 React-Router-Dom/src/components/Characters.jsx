@@ -47,8 +47,8 @@ const Characters = () => {
         flexWrap='wrap'
         justifyContent='center'
       >
-        {characters?.map(character => (
-          <CharacterCard character={character} />
+        {characters?.map((character, index) => (
+          <CharacterCard key={index} character={character} />
         ))}
       </Box>
     </Paper>
