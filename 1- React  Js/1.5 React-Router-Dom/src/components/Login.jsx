@@ -1,11 +1,13 @@
 import { Box, Button, Paper, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import useForm from '../hooks/useForm'
 import { APIUSERS } from '../constants/urls'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/userContext'
 
 const Login = ({ setIsLoggedIn }) => {
+  const { setUserInfo } = useContext(UserContext)
   const [users, setUsers] = useState([])
   const navigate = useNavigate()
 
@@ -13,6 +15,7 @@ const Login = ({ setIsLoggedIn }) => {
     const fetchUsers = async () => {
       try {
         const users = await fetch(APIUSERS).then(response => response.json())
+        console.log(users)
         setUsers(users)
       } catch (error) {
         console.error(error)
@@ -32,6 +35,7 @@ const Login = ({ setIsLoggedIn }) => {
     const userExists = users.find(
       u => u.email === formValues.email && u.password === formValues.password
     )
+    setUserInfo(userExists)
 
     if (userExists) {
       localStorage.setItem('isLoggedIn', 'true')

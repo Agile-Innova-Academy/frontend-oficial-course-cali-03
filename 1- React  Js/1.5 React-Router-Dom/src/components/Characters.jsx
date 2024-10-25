@@ -5,6 +5,7 @@ import { Box, Stack, Pagination, Paper } from '@mui/material'
 
 const Characters = () => {
   const [characters, setCharacters] = useState([])
+  const [pages, setPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const handlePageChange = (event, value) => {
     setCurrentPage(value)
@@ -14,7 +15,10 @@ const Characters = () => {
     const fetchAllCharacters = async () => {
       await fetch(`${APIURL}/character/?page=${currentPage}`)
         .then(response => response.json())
-        .then(data => setCharacters(data.results))
+        .then(data => {
+          setCharacters(data.results)
+          setPages(data.info.pages)
+        })
     }
 
     fetchAllCharacters()
@@ -33,7 +37,7 @@ const Characters = () => {
     >
       <Stack spacing={2} justifyContent='center' display='flex'>
         <Pagination
-          count={10}
+          count={pages}
           color='primary'
           page={currentPage}
           onChange={handlePageChange}
