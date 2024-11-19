@@ -44,7 +44,7 @@ const infoComplementaryUser = () => {
   }
 
   const updateInfoUser = async (values: FormValues)=>{
-    const userId = "Id_Collecction"
+    const userId = "jor7jRJ0yZ4G7FI5DfXD"
     try {
         await updateInfoComplUser(userId, values)
         console.log("peticion enviados al back de firebase");
